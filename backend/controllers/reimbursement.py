@@ -112,7 +112,18 @@ def get_reimbursements(
         cursor.execute(query, params)
         rows = cursor.fetchall()
 
-        return [reimbursement_with_department_row_to_dict(row) for row in rows]
+        records = [reimbursement_with_department_row_to_dict(row) for row in rows]
+        by_id = {record["id"]: record for record in records}
+        for record in records:
+            record["attachments"] = []
+        if by_id:
+            cursor.execute(
+                "SELECT reimbursement_id, filename, filepath FROM receipt_images WHERE reimbursement_id = ANY(%s) ORDER BY uploaded_at, id",
+                (list(by_id),),
+            )
+            for owner, filename, filepath in cursor.fetchall():
+                by_id[owner]["attachments"].append({"filename": filename, "filepath": filepath})
+        return records
     finally:
         cursor.close()
         conn.close()

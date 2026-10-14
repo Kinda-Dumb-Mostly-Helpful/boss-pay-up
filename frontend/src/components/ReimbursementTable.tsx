@@ -1,3 +1,4 @@
+import AttachmentPreview from "./AttachmentPreview";
 import { useTranslation } from "../i18n";
 import React, { useEffect, useState } from "react";
 import { batchRequest } from "../batchApi";
@@ -223,68 +224,13 @@ const ReimbursementTable: React.FC<ReimbursementTableProps> = ({
                     {item.void_reason && <div className="void-details">{t("原因：")}{item.void_reason}<br />{t("报废人：")}{item.void_operator}<br />{item.void_at}</div>}
                   </td>
                   <td>
-                    {/* Show receipt filename if exists */}
-                    {item.receipt_filename ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                        }}
-                      >
-                        <a
-                          href={`/api/upload/${item.receipt_filename}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={item.receipt_filename}
-                          style={{
-                            maxWidth: "120px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            color: "#0066cc",
-                            textDecoration: "none",
-                          }}
-                          onMouseEnter={(e) =>
-                            (e.currentTarget.style.textDecoration = "underline")
-                          }
-                          onMouseLeave={(e) =>
-                            (e.currentTarget.style.textDecoration = "none")
-                          }
-                        >
-                          📄 {item.receipt_filename}
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() => handleEdit(item.id)}
-                          title={t("查看/上传图片")}
-                          disabled={savingForm || item.status === "已报销" || item.status === "已报废"}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            fontSize: "1.2rem",
-                          }}
-                        >
-                          📷
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleEdit(item.id)}
-                        title={t("上传图片")}
-                        disabled={savingForm || item.status === "已报销" || item.status === "已报废"}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          fontSize: "1.2rem",
-                        }}
-                      >
-                        📷
-                      </button>
-                    )}
+                    <div className="receipt-thumbnails">
+                      {item.attachments?.length ? item.attachments.map(attachment => (
+                        <AttachmentPreview key={attachment.filepath} name={attachment.filename} src={`/api/upload/${encodeURIComponent(attachment.filepath.split(/[\\/]/).pop() || "")}`} />
+                      )) : item.receipt_filename ? (
+                        <AttachmentPreview name={item.receipt_filename} src={`/api/upload/${encodeURIComponent(item.receipt_filename)}`} />
+                      ) : <span className="receipt-empty">?</span>}
+                    </div>
                   </td>
                   <td style={{ textAlign: "right" }}>
                     <div className="action-icons">

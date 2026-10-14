@@ -10,7 +10,7 @@ from backend.controllers.reimbursement import router as reimbursement_router
 from backend.controllers.upload import router as upload_router
 from backend.controllers.summary import router as summary_router
 from backend.controllers.export import router as export_router
-from backend.controllers.batches import router as batches_router, init_batches
+from backend.controllers.batches import router as batches_router, public_router, init_batches
 from backend.controllers.auth import router as auth_router, init_auth, current_user
 
 app = FastAPI(title="Boss Pay Up API", version="2.0.0")
@@ -27,7 +27,7 @@ async def authenticate(request: Request, call_next):
             origin = request.headers.get('origin')
             if origin and origin not in allowed_origins:
                 return JSONResponse({'detail': '请求来源不被允许'}, status_code=403)
-        if path not in public:
+        if path not in public and not path.startswith('/api/public/'):
             user = await run_in_threadpool(current_user, request)
             if not user:
                 return JSONResponse({'detail': '请先登录，或登录已过期'}, status_code=401)
@@ -53,6 +53,7 @@ app.include_router(upload_router)
 app.include_router(summary_router)
 app.include_router(export_router)
 app.include_router(batches_router)
+app.include_router(public_router)
 app.include_router(auth_router)
 
 

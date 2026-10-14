@@ -20,6 +20,7 @@ export interface Reimbursement {
 }
 
 export interface ReimbursementWithDepartment extends Reimbursement {
+  attachments?: { filename: string; filepath: string }[];
   department: Department;
 }
 

@@ -45,6 +45,7 @@ class DepartmentInfo(BaseModel):
 
 
 class ReimbursementWithDepartmentResponse(BaseModel):
+    attachments: list[dict[str, str]] = Field(default_factory=list)
     void_reason: Optional[str] = None
     void_operator: Optional[str] = None
     void_at: Optional[str] = None

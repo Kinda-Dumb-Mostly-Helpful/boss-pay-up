@@ -1,12 +1,17 @@
+import os
+import secrets
+import shutil
 import uuid
 from datetime import datetime
 from typing import Literal
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, UploadFile, File
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from psycopg2.extras import Json, RealDictCursor
 from backend.database.connection import get_db_connection
 
 router = APIRouter(prefix="/api/approval-batches", tags=["approval batches"])
+public_router = APIRouter(prefix="/api/public", tags=["public"])
 
 
 def init_batches():
@@ -29,6 +34,14 @@ def init_batches():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             ALTER TABLE approval_batch_events ADD COLUMN IF NOT EXISTS operator_id TEXT;
+            ALTER TABLE approval_batches ADD COLUMN IF NOT EXISTS share_token TEXT;
+            CREATE UNIQUE INDEX IF NOT EXISTS approval_batches_share_token_idx
+                ON approval_batches(share_token) WHERE share_token IS NOT NULL;
+            CREATE TABLE IF NOT EXISTS approval_batch_attachments (
+                id TEXT PRIMARY KEY, batch_id TEXT REFERENCES approval_batches(id),
+                filename TEXT NOT NULL, filepath TEXT NOT NULL,
+                uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
         """)
         conn.commit()
 
@@ -57,10 +70,14 @@ def list_batches():
         cursor.execute("SELECT * FROM approval_batches ORDER BY created_at DESC, id")
         batches = cursor.fetchall()
         for batch in batches:
+            batch['shared'] = bool(batch.get('share_token'))
+            batch.pop('share_token', None)
             cursor.execute("SELECT snapshot FROM approval_batch_items WHERE batch_id=%s ORDER BY reimbursement_id", (batch['id'],))
             batch['items'] = [row['snapshot'] for row in cursor.fetchall()]
             cursor.execute("SELECT action, operator, note, created_at FROM approval_batch_events WHERE batch_id=%s ORDER BY id", (batch['id'],))
             batch['events'] = cursor.fetchall()
+            cursor.execute("SELECT id, filename, filepath, uploaded_at FROM approval_batch_attachments WHERE batch_id=%s ORDER BY uploaded_at, id", (batch['id'],))
+            batch['attachments'] = cursor.fetchall()
         return batches
 
 
@@ -116,3 +133,103 @@ def act_on_batch(batch_id: str, request: BatchAction, http_request: Request):
         cursor.execute("INSERT INTO approval_batch_events(batch_id,action,operator,note,operator_id) VALUES(%s,%s,%s,%s,%s)", (batch_id, target, operator, request.note.strip(), user['id']))
         conn.commit()
     return {"status": target}
+
+
+@router.post("/{batch_id}/attachments")
+async def upload_batch_attachment(batch_id: str, file: UploadFile = File(...)):
+    with get_db_connection() as conn, conn.cursor() as cursor:
+        cursor.execute("SELECT 1 FROM approval_batches WHERE id=%s", (batch_id,))
+        if not cursor.fetchone():
+            raise HTTPException(404, "批次不存在")
+    upload_dir = "backend/uploads"
+    os.makedirs(upload_dir, exist_ok=True)
+    extension = os.path.splitext(file.filename or "")[1]
+    stored = f"{uuid.uuid4()}{extension}"
+    filepath = os.path.join(upload_dir, stored)
+    with open(filepath, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    attachment_id = str(uuid.uuid4())
+    with get_db_connection() as conn, conn.cursor() as cursor:
+        cursor.execute("INSERT INTO approval_batch_attachments(id,batch_id,filename,filepath) VALUES(%s,%s,%s,%s)",
+                       (attachment_id, batch_id, file.filename, filepath))
+        conn.commit()
+    return {"id": attachment_id, "batch_id": batch_id, "filename": file.filename,
+            "filepath": filepath, "uploaded_at": datetime.now().isoformat()}
+
+
+@router.post("/{batch_id}/share")
+def enable_share(batch_id: str):
+    with get_db_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cursor:
+        cursor.execute("SELECT share_token FROM approval_batches WHERE id=%s", (batch_id,))
+        batch = cursor.fetchone()
+        if not batch:
+            raise HTTPException(404, "批次不存在")
+        if batch["share_token"]:
+            return {"share_token": batch["share_token"]}
+        token = secrets.token_urlsafe(24)
+        cursor.execute("UPDATE approval_batches SET share_token=%s WHERE id=%s", (token, batch_id))
+        conn.commit()
+        return {"share_token": token}
+
+
+@router.delete("/{batch_id}/share")
+def disable_share(batch_id: str):
+    with get_db_connection() as conn, conn.cursor() as cursor:
+        cursor.execute("UPDATE approval_batches SET share_token=NULL WHERE id=%s", (batch_id,))
+        conn.commit()
+    return {"message": "已停止分享"}
+
+
+@public_router.get("/batches/{token}")
+def public_batch(token: str):
+    with get_db_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cursor:
+        cursor.execute("SELECT id, title, currency, status, created_at FROM approval_batches WHERE share_token=%s", (token,))
+        batch = cursor.fetchone()
+        if not batch:
+            raise HTTPException(404, "该审批组未公开分享或链接无效")
+        cursor.execute("SELECT snapshot FROM approval_batch_items WHERE batch_id=%s ORDER BY reimbursement_id", (batch["id"],))
+        batch["items"] = [row["snapshot"] for row in cursor.fetchall()]
+        cursor.execute("SELECT action, operator, note, created_at FROM approval_batch_events WHERE batch_id=%s ORDER BY id", (batch["id"],))
+        batch["events"] = cursor.fetchall()
+        cursor.execute("SELECT id, filename, filepath, uploaded_at FROM approval_batch_attachments WHERE batch_id=%s ORDER BY uploaded_at, id", (batch["id"],))
+        batch["attachments"] = cursor.fetchall()
+        return batch
+
+
+@public_router.get("/batches/{token}/attachments/{filename}")
+def public_attachment(token: str, filename: str):
+    if ".." in filename or "/" in filename or "\\" in filename:
+        raise HTTPException(status_code=400, detail="Invalid filename")
+    with get_db_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cursor:
+        cursor.execute("SELECT id FROM approval_batches WHERE share_token=%s", (token,))
+        batch = cursor.fetchone()
+        if not batch:
+            raise HTTPException(404, "附件不存在")
+        cursor.execute("SELECT snapshot FROM approval_batch_items WHERE batch_id=%s", (batch["id"],))
+        allowed = False
+        for row in cursor.fetchall():
+            snapshot = row["snapshot"]
+            if snapshot.get("receipt_filename") == filename:
+                allowed = True
+                break
+            for attachment in snapshot.get("attachments") or []:
+                if os.path.basename(attachment.get("filepath") or "") == filename:
+                    allowed = True
+                    break
+            if allowed:
+                break
+        if not allowed:
+            cursor.execute("SELECT 1 FROM approval_batch_attachments WHERE batch_id=%s AND filepath=%s", (batch["id"], os.path.join("backend/uploads", filename)))
+            allowed = cursor.fetchone() is not None
+    if not allowed:
+        raise HTTPException(404, "附件不存在")
+    filepath = os.path.join("backend/uploads", filename)
+    if not os.path.exists(filepath):
+        raise HTTPException(status_code=404, detail="附件不存在")
+    media_type = None
+    lower = filename.lower()
+    if lower.endswith((".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp")):
+        media_type = "image/" + lower.split(".")[-1]
+        if media_type == "image/jpg":
+            media_type = "image/jpeg"
+    return FileResponse(filepath, media_type=media_type)

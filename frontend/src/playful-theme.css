@@ -1,4 +1,15 @@
 /* Boss Pay Up: receipt-paper surfaces, coin-yellow actions and sticker accents. */
+.receipt-thumbnails { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; min-width: 86px; max-width: 180px; }
+.receipt-empty { color: var(--text-soft); }
+.receipt-thumbnail { display: inline-flex; width: 38px; height: 38px; padding: 2px; margin: 2px; vertical-align: middle; border: 1px solid #d8d3c5; border-radius: 6px; background: #fffef9; cursor: zoom-in; }
+.receipt-thumbnail img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+.receipt-thumbnail:hover { border-color: #254c3b; box-shadow: 0 0 0 2px #e0efdf; }
+.receipt-lightbox { margin: auto; padding: 12px; max-width: 94vw; max-height: 92dvh; border: 1px solid #d8d3c5; border-radius: 12px; background: #fffef9; }
+.receipt-lightbox::backdrop { background: #14251dd9; }
+.receipt-lightbox-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+.receipt-lightbox-bar span { overflow-wrap: anywhere; font-size: 13px; }
+.receipt-lightbox-bar button { width: 32px; height: 32px; flex-shrink: 0; border: 0; border-radius: 6px; background: #e0efdf; font-size: 24px; cursor: pointer; }
+.receipt-lightbox > a > img { display: block; max-width: 85vw; max-height: 76dvh; object-fit: contain; cursor: zoom-in; }
 :root {
   --bg: #f8f3e7;
   --surface: #fffef9;
@@ -31,6 +42,29 @@ body {
 .project-logo { display: block; width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; }
 .login-brand { display: flex; align-items: center; gap: 16px; }
 .login-logo { display: block; width: 88px; height: 88px; object-fit: contain; flex-shrink: 0; }
+.archive-review-row { display: flex; align-items: center; gap: 12px; min-width: 0; margin-bottom: 10px; }
+.archive-review-row .archive-note { flex: 0 1 40%; min-width: 0; }
+.archive-review-row .archive-attachment-section { flex: 1 1 0; margin-bottom: 0; }
+.archive-attachment-section { display: flex; align-items: center; gap: 10px; max-width: 100%; min-width: 0; overflow-x: auto; padding: 8px 10px; }
+.archive-attachment-section > * { flex-shrink: 0; }
+.archive-attachment-section .attachment-heading,
+.archive-attachment-section .attachment-list-heading { display: flex; align-items: center; gap: 6px; margin: 0; white-space: nowrap; }
+.archive-attachment-section .attachment-heading h4 { margin: 0; }
+.archive-attachment-section .attachment-heading > span,
+.archive-attachment-section .attachment-upload-label small { display: none; }
+.archive-attachment-section .attachment-upload-label { display: flex; align-items: center; gap: 6px; padding: 6px 10px; margin: 0; cursor: pointer; white-space: nowrap; }
+.archive-attachment-section .attachment-upload-icon { display: grid; place-items: center; width: 24px; height: 24px; }
+.archive-attachment-section .attachment-grid { display: flex; gap: 6px; }
+.archive-attachment-section .attachment-card { display: flex; align-items: center; flex: 0 0 auto; width: 180px; height: 38px; padding-right: 4px; }
+.archive-attachment-section .pending-attachment { padding-right: 28px; }
+.archive-attachment-section .attachment-card > a { flex-shrink: 0; }
+.archive-attachment-section .attachment-card img,
+.archive-attachment-section .archive-attachment-file { display: flex; width: 32px; height: 32px; min-height: 0; object-fit: cover; flex-shrink: 0; }
+.archive-attachment-section .archive-attachment-file small,
+.archive-attachment-section .attachment-caption small { display: none; }
+.archive-attachment-section .attachment-caption { min-width: 0; padding: 4px 6px; }
+.archive-attachment-section .export-actions { margin-top: 0 !important; flex-wrap: nowrap; }
+.archive-attachment-section button { white-space: nowrap; }
 .user-avatar { background: #dceecf; color: #29472d; border: 1px solid #9ab48b; }
 .workspace-toolbar .page-navigation { background: #f0ebd9; }
 .workspace-toolbar .page-navigation a[aria-current="page"] { background: var(--coin); color: var(--ink); box-shadow: 2px 2px 0 var(--ink); }
@@ -83,6 +117,68 @@ input[type="checkbox"] { accent-color: #376348; }
 .archive-state.paid, .status-badge.reimbursed { color: #206244; background: #dcf2df; }
 .archive-state.rejected, .status-badge.rejected { color: #a93435; background: #ffe4df; }
 .archive-timeline li::before { background: #b5c68d; }
+.archive-workspace { padding: 16px; border-radius: 14px; }
+.archive-workspace .archive-heading { align-items: center; gap: 12px; margin-bottom: 12px; }
+.archive-workspace .archive-heading h2 { margin: 0; font-size: 18px; letter-spacing: -.3px; }
+.archive-workspace .archive-heading p { margin: 4px 0 0; font-size: 12px; }
+.archive-heading > a { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.archive-heading > a:hover { background: var(--brand-soft); border-color: #a9bd95; }
+.archive-filterbar { gap: 10px; padding: 9px; margin-bottom: 14px; border: 1px solid var(--line-soft); border-radius: 10px; background: #f5f1e5; }
+.archive-status-filters { gap: 4px; }
+.archive-status-filters button { display: inline-flex; align-items: center; padding: 6px 9px; background: transparent; border-color: transparent; font-size: 12px; }
+.archive-status-filters span { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; margin-left: 6px; border-radius: 6px; background: #ffffffa6; opacity: 1; font-variant-numeric: tabular-nums; }
+.archive-search { min-width: 0; }
+.archive-search input { width: clamp(160px, 19vw, 260px); background: var(--surface); }
+.archive-search button { background: #e4f0d9; color: var(--brand); border-color: #bbcbb0; font-size: 12px; }
+.archive-card { --archive-accent: #d5ae42; border-color: var(--line); border-left: 3px solid var(--archive-accent); border-radius: 10px; box-shadow: 0 2px 0 #293d3308; }
+.archive-card-approved { --archive-accent: #a78abf; }
+.archive-card-paid { --archive-accent: #70a483; }
+.archive-card-rejected { --archive-accent: #d38d82; }
+.archive-card[open] { border-color: #bcc8b2; border-left-color: var(--archive-accent); box-shadow: 0 3px 0 #293d3312; }
+.archive-card summary { padding: 11px 13px; gap: 12px; background: #fffdf6; cursor: pointer; }
+.archive-card summary:hover { background: #faf3d9; }
+.archive-card[open] summary { background: #f5f2e5; }
+.archive-card-title strong { font-weight: 700; line-height: 1.5; }
+.archive-card-title small { margin-top: 3px; line-height: 1.6; }
+.archive-state { border-radius: 6px; font-weight: 600; font-size: 11px; }
+.archive-amount { padding: 6px 10px; background: #fffef9; border: 1px solid var(--line-soft); border-radius: 8px; font-size: 17px; font-weight: 700; }
+.archive-chevron { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #e9e6d8; flex-shrink: 0; }
+.archive-card-body { padding: 0 13px 12px; background: var(--surface); }
+.archive-card-body .archive-id { margin: 9px 0; font-size: 10px; letter-spacing: .2px; }
+.archive-review-row { padding: 8px; background: #f5f4eb; border: 1px solid var(--line-soft); border-radius: 9px; gap: 10px; flex-wrap: nowrap; overflow-x: auto; }
+.archive-review-row .archive-note { flex: 1 0 350px; flex-direction: row; align-items: center; font-weight: 600; gap: 8px; white-space: nowrap; }
+.archive-review-row .archive-note input { flex: 1; min-width: 180px; width: 0; height: 36px; }
+.archive-review-row .archive-actionbar { flex: 0 0 auto; margin: 0; padding-left: 10px; border-left: 1px solid var(--line); }
+.archive-review-row .archive-actionbar > .export-actions { flex-wrap: nowrap; }
+.archive-review-row .archive-actionbar button { height: 36px; white-space: nowrap; }
+.archive-note input { background: var(--surface); font-weight: 400; }
+.archive-review-row .archive-attachment-section { flex: 0 1 380px; min-width: 280px; padding: 2px 0; background: transparent; border: 0; border-radius: 0; }
+.archive-actionbar { margin-bottom: 12px; gap: 8px; }
+.archive-actionbar > .export-actions { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; }
+.archive-actionbar .export-actions button { padding: 7px 10px; border-radius: 7px; }
+.archive-detail-table { border-color: var(--line-soft); border-radius: 9px; }
+.archive-detail-table th { font-size: 11px; font-weight: 600; white-space: nowrap; }
+.archive-detail-table td { font-size: 12px; border-bottom-color: var(--line-soft); }
+.archive-detail-table tbody tr:hover { background: #fff8df; }
+.archive-detail-table td a { color: var(--brand); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.archive-history-title { margin: 14px 0 10px; font-size: 12px; color: var(--text-soft); }
+.archive-timeline { padding: 0 0 0 17px; }
+.archive-timeline li { border-left-color: #d3ddc6; padding-bottom: 12px; }
+.archive-timeline li > div { gap: 8px; flex-wrap: wrap; }
+.archive-timeline strong { color: var(--ink); font-size: 12px; }
+.archive-timeline time { font-size: 11px; font-variant-numeric: tabular-nums; }
+.archive-timeline li p { margin: 5px 0 0; padding: 7px 10px; background: #f5f3e9; border-radius: 6px; font-size: 12px; overflow-wrap: anywhere; }
+.archive-empty { padding: 36px 16px; border: 1px dashed #c6c8b2; border-radius: 10px; background: #faf8ee; color: var(--ink); }
+@media (max-width: 640px) {
+  .archive-workspace { padding: 10px; }
+  .archive-filterbar { gap: 8px; }
+  .archive-search { width: 100%; }
+  .archive-search input { flex: 1; width: 0; }
+  .archive-card summary { gap: 8px; padding: 10px; flex-wrap: wrap; }
+  .archive-card-title { flex-basis: 55%; }
+  .archive-review-row { gap: 8px; padding: 8px; }
+  .archive-review-row .archive-note { flex-basis: 350px; }
+}
 .user-create-card { background: #f6f0dc; }
 .user-role.admin { background: #ede0fa; color: #604280; }
 .login-card { background: #fffdf4; border: 2px solid var(--ink); box-shadow: 7px 7px 0 #c9dcae; }
