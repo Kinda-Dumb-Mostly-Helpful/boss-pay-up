@@ -1,0 +1,19 @@
+node_modules/
+dist/
+__pycache__/
+*.py[cod]
+*.tsbuildinfo
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.local
+*.log
+*.db
+*.sqlite
+*.sqlite3
+backend/uploads/
+# Local proprietary fonts are not part of the open-source distribution.
+frontend/public/fonts/helvetica/
+.publish-index*

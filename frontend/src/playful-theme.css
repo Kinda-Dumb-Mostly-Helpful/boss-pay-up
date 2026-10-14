@@ -1,0 +1,96 @@
+/* Boss Pay Up: receipt-paper surfaces, coin-yellow actions and sticker accents. */
+:root {
+  --bg: #f8f3e7;
+  --surface: #fffef9;
+  --surface-soft: #f5f1e5;
+  --line: #d8d3c5;
+  --line-soft: #ebe6d8;
+  --text: #26312e;
+  --text-soft: #62675c;
+  --brand: #254c3b;
+  --brand-soft: #e0efdf;
+  --danger: #a93435;
+  --danger-soft: #ffe4df;
+  --success: #206244;
+  --success-soft: #dcf2df;
+  --warning: #775017;
+  --warning-soft: #fff0ba;
+  --coin: #ffd45b;
+  --ink: #293d33;
+  --sticker-shadow: 3px 3px 0 #293d3326;
+}
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(#d9d2be 0.7px, transparent 0.7px);
+  background-size: 18px 18px;
+}
+.account-bar { background: #fffdf4; border-color: var(--ink); border-bottom-color: var(--line); }
+.workspace-toolbar { background: #fffdf4; border-color: var(--ink); box-shadow: 0 3px 0 #293d3315; }
+.brand-mark { background: var(--coin); color: var(--ink); border: 2px solid var(--ink); border-radius: 50%; box-shadow: 2px 2px 0 var(--ink); transform: rotate(-8deg); }
+.system-brand h1 { color: var(--ink); }
+.project-logo { display: block; width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; }
+.login-brand { display: flex; align-items: center; gap: 16px; }
+.login-logo { display: block; width: 88px; height: 88px; object-fit: contain; flex-shrink: 0; }
+.user-avatar { background: #dceecf; color: #29472d; border: 1px solid #9ab48b; }
+.workspace-toolbar .page-navigation { background: #f0ebd9; }
+.workspace-toolbar .page-navigation a[aria-current="page"] { background: var(--coin); color: var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+.workspace-toolbar .page-navigation a:hover { color: var(--ink); background: #ffe9a0; }
+.summary-item { border: 1px solid #d9d0b7; background: #fffdf6; }
+.summary-item:nth-child(2) { background: #e3f2d8; border-color: #bad0ab; }
+.summary-item:nth-child(3) { background: #fff0b9; border-color: #e1c36e; }
+.summary-item:nth-child(4) { background: #efe5f7; border-color: #d3bee1; }
+.summary-item .value, .summary-item:nth-child(3) .value { color: var(--ink); }
+.form-panel, .table-wrapper, .batch-panel, .user-manager { background: var(--surface); border-color: #b9b7a5; box-shadow: var(--sticker-shadow); }
+.form-section { background: #f7f4e9; border-color: var(--line-soft); }
+.form-section h4, .form-panel h2, .table-header h2 { color: var(--ink); }
+.form-panel .action-btns.sticky-actions { background: var(--surface); }
+.btn-primary, .login-card .btn-primary, .user-create-form .btn-primary,
+.archive-actionbar .archive-primary { background: var(--coin); color: var(--ink); border: 1px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+.btn-primary:hover:not(:disabled), .archive-actionbar .archive-primary:hover:not(:disabled) { background: #ffe48b; color: var(--ink); }
+.btn-secondary { background: #edf2e4; color: var(--ink); border-color: #b7c5a5; }
+.status-tabs button { background: #fffef9; color: var(--text-soft); }
+.status-tabs button.active, .status-tabs button[aria-selected="true"],
+.archive-status-filters button[aria-pressed="true"] { color: var(--ink); background: var(--coin); border-color: var(--ink); box-shadow: 2px 2px 0 #293d3340; }
+.status-tabs button:hover:not(:disabled), .archive-status-filters button:hover:not(:disabled) { background: #fff0ba; color: var(--ink); }
+.status-tabs button span { background: #ffffff80; color: inherit; }
+.export-actions button { color: var(--ink); background: #fffdf4; border-color: #c5c5ac; }
+.export-actions button:hover:not(:disabled) { background: #e6f2dc; border-color: #729365; }
+.export-actions .batch-submit { background: var(--coin); color: var(--ink); border-color: var(--ink); }
+.badge, .department-badge { background: #e5f0db; color: #355b35; }
+.detail-table-scroll thead, .table-wrapper th, .users-list-card th, .archive-detail-table th { background: #f1eddc; color: #4e5847; }
+.table-wrapper tbody tr:hover, .users-list-card tbody tr:hover { background: #fff5ce; }
+.money { color: #285b3f; }
+input[type="checkbox"] { accent-color: #376348; }
+.pagination-bar { border-color: var(--line); }
+.pagination-bar button, .pagination-bar select { background: #fffdf4; color: var(--ink); }
+.pagination-bar button:hover:not(:disabled) { background: var(--coin); }
+.filter-launch, .department-manage-button { background: #e4f0d9; color: #355d38; border-color: #a9bd95; }
+.filter-launch:hover, .filter-launch.has-filters, .department-manage-button:hover,
+.department-manage-button.is-active { background: #cfe5bd; color: #233f27; border-color: #688552; }
+.active-filter-tags span { background: #fff0ba; color: #775017; }
+.detail-filter-dialog, .account-menu-panel { background: var(--surface); border: 1px solid var(--ink); box-shadow: 5px 5px 0 #293d3333; }
+.filter-dialog-heading, .detail-filter-dialog .filter-dialog-footer { background: #f7f2df; }
+.account-menu > summary { background: #fffdf4; border-color: #c2c6ae; }
+.account-menu[open] > summary, .account-menu > summary:hover { background: var(--coin); border-color: var(--ink); color: var(--ink); }
+.account-actions button:hover { background: #ecf2df; border-color: #9aaf82; color: var(--ink); }
+.attachment-dropzone { background: #fff9e3; border-color: #c6ab54; }
+.attachment-dropzone:hover, .attachment-dropzone.is-dragging { background: #fff0b9; border-color: #8d731f; }
+.attachment-card, .pending-attachment { border-color: #cac5ae; background: #fffef9; }
+.archive-card summary { background: #f7f1dc; }
+.archive-card summary:hover { background: #fff0b9; }
+.archive-state.pending, .status-badge.pending { color: #775017; background: #fff0ba; }
+.archive-state.approved { color: #4f3d75; background: #ece1fa; }
+.archive-state.paid, .status-badge.reimbursed { color: #206244; background: #dcf2df; }
+.archive-state.rejected, .status-badge.rejected { color: #a93435; background: #ffe4df; }
+.archive-timeline li::before { background: #b5c68d; }
+.user-create-card { background: #f6f0dc; }
+.user-role.admin { background: #ede0fa; color: #604280; }
+.login-card { background: #fffdf4; border: 2px solid var(--ink); box-shadow: 7px 7px 0 #c9dcae; }
+.login-card h1 { color: var(--ink); }
+.detail-table-scroll::-webkit-scrollbar-track { background: #f1eddf; }
+.detail-table-scroll::-webkit-scrollbar-thumb { background: #b6c19c; }
+:is(button, a, input, select, textarea, summary):focus-visible { outline: 2px solid #48724a; outline-offset: 3px; }
+button:disabled { box-shadow: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .btn-primary:active:not(:disabled), .archive-primary:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+}

@@ -1,0 +1,47 @@
+{
+  "tool": "built-in image_gen",
+  "variants": [
+    {
+      "language": "zh-CN",
+      "file": "boss-pay-up-logo-zh-CN.png",
+      "text": "老板打钱",
+      "source": "boss-pay-up-logo-v1.png"
+    },
+    {
+      "language": "zh-TW",
+      "file": "boss-pay-up-logo-zh-TW.png",
+      "text": "老闆打錢",
+      "prompt": "Use case: text-localization. Edit this Boss Pay Up logo. Preserve exactly the existing receipt mascot, its face, gold dollar coin, approval check, navy and gold palette, proportions and transparent background. Change only the wordmark area beneath the mascot. Remove all Chinese from that area. Set the main wordmark to the following exact text in bold rounded legible typography with correct native-script glyphs and marks: \"老闆打錢\". Beneath it keep the smaller English line exactly \"BOSS PAY UP\". Maintain generous margins. One standalone transparent PNG logo, not a sheet or mockup. No extra words."
+    },
+    {
+      "language": "en",
+      "file": "boss-pay-up-logo-en.png",
+      "text": "BOSS PAY UP",
+      "prompt": "Use case: text-localization. Edit this Boss Pay Up logo. Preserve exactly the existing receipt mascot, its face, gold dollar coin, approval check, navy and gold palette, proportions and transparent background. Change only the wordmark area beneath the mascot. Remove all Chinese from that area. Set the main wordmark to the following exact text in bold rounded legible typography with correct native-script glyphs and marks: \"BOSS PAY UP\". Single centered English wordmark, no second duplicate English line. Maintain generous margins. One standalone transparent PNG logo, not a sheet or mockup. No extra words."
+    },
+    {
+      "language": "km",
+      "file": "boss-pay-up-logo-km.png",
+      "text": "មេ សុំលុយ!",
+      "prompt": "Use case: text-localization. Edit this Boss Pay Up logo. Preserve exactly the existing receipt mascot, its face, gold dollar coin, approval check, navy and gold palette, proportions and transparent background. Change only the wordmark area beneath the mascot. Remove all Chinese from that area. Set the main wordmark to the following exact text in bold rounded legible typography with correct native-script glyphs and marks: \"មេ សុំលុយ!\". Beneath it keep the smaller English line exactly \"BOSS PAY UP\". Maintain generous margins. One standalone transparent PNG logo, not a sheet or mockup. No extra words. Pay meticulous attention to accents and complex script shaping."
+    },
+    {
+      "language": "es",
+      "file": "boss-pay-up-logo-es.png",
+      "text": "¡JEFE, PAGA YA!",
+      "prompt": "Use case: text-localization. Edit this Boss Pay Up logo. Preserve exactly the existing receipt mascot, its face, gold dollar coin, approval check, navy and gold palette, proportions and transparent background. Change only the wordmark area beneath the mascot. Remove all Chinese from that area. Set the main wordmark to the following exact text in bold rounded legible typography with correct native-script glyphs and marks: \"¡JEFE, PAGA YA!\". Beneath it keep the smaller English line exactly \"BOSS PAY UP\". Maintain generous margins. One standalone transparent PNG logo, not a sheet or mockup. No extra words. Pay meticulous attention to accents and complex script shaping."
+    },
+    {
+      "language": "vi",
+      "file": "boss-pay-up-logo-vi.png",
+      "text": "SẾP ƠI, TRẢ TIỀN!",
+      "prompt": "Use case: text-localization. Edit this Boss Pay Up logo. Preserve exactly the existing receipt mascot, its face, gold dollar coin, approval check, navy and gold palette, proportions and transparent background. Change only the wordmark area beneath the mascot. Remove all Chinese from that area. Set the main wordmark to the following exact text in bold rounded legible typography with correct native-script glyphs and marks: \"SẾP ƠI, TRẢ TIỀN!\". Beneath it keep the smaller English line exactly \"BOSS PAY UP\". Maintain generous margins. One standalone transparent PNG logo, not a sheet or mockup. No extra words. Pay meticulous attention to accents and complex script shaping."
+    },
+    {
+      "language": "hi",
+      "file": "boss-pay-up-logo-hi.png",
+      "text": "बॉस, पैसे दो!",
+      "prompt": "Use case: text-localization. Edit this Boss Pay Up logo. Preserve exactly the existing receipt mascot, its face, gold dollar coin, approval check, navy and gold palette, proportions and transparent background. Change only the wordmark area beneath the mascot. Remove all Chinese from that area. Set the main wordmark to the following exact text in bold rounded legible typography with correct native-script glyphs and marks: \"बॉस, पैसे दो!\". Beneath it keep the smaller English line exactly \"BOSS PAY UP\". Maintain generous margins. One standalone transparent PNG logo, not a sheet or mockup. No extra words. Pay meticulous attention to accents and complex script shaping."
+    }
+  ]
+}

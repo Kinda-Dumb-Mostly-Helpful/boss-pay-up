@@ -1,0 +1,16 @@
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Thin.ttf") format("truetype"); font-weight: 100; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-ExtraLight.ttf") format("truetype"); font-weight: 200; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Light.ttf") format("truetype"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Normal.ttf") format("truetype"); font-weight: 350; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Medium.ttf") format("truetype"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Demibold.ttf") format("truetype"); font-weight: 550; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Semibold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "App MiSans"; src: url("./misans/MiSans-Heavy.ttf") format("truetype"); font-weight: 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "App Helvetica"; src: url("./helvetica/Helvetica.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "App Helvetica"; src: url("./helvetica/Helvetica-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "App Helvetica"; src: url("./helvetica/Helvetica-Oblique.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "App Helvetica"; src: url("./helvetica/Helvetica-BoldOblique.ttf") format("truetype"); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "App Khmer"; src: url("./noto/NotoSansKhmer.ttf") format("truetype"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "App Devanagari"; src: url("./noto/NotoSansDevanagari.ttf") format("truetype"); font-weight: 100 900; font-style: normal; font-display: swap; }
