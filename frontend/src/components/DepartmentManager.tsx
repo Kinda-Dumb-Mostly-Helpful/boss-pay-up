@@ -35,14 +35,16 @@ const DepartmentManager: React.FC<DepartmentManagerProps> = ({
   if (!showDepartmentManager) return null;
 
   return (
-    <div className="form-panel" style={{ marginBottom: "1.5rem" }}>
+    <div className="department-workspace">
+      <section className="department-editor">
       <div className="form-title">
         <i>🏢</i> {editingDepartmentId ? t("编辑部门") : t("添加新部门")}
       </div>
       <div className="form-row">
         <div className="form-group">
-          <label>{t("部门名称")}</label>
+          <label htmlFor="department-name">{t("部门名称")}</label>
           <input
+            id="department-name"
             type="text"
             value={departmentName}
             onChange={(e) => setDepartmentName(e.target.value)}
@@ -51,8 +53,9 @@ const DepartmentManager: React.FC<DepartmentManagerProps> = ({
           />
         </div>
         <div className="form-group">
-          <label>{t("部门描述")}</label>
+          <label htmlFor="department-description">{t("部门描述")}</label>
           <input
+            id="department-description"
             type="text"
             value={departmentDescription}
             onChange={(e) => setDepartmentDescription(e.target.value)}
@@ -75,19 +78,21 @@ const DepartmentManager: React.FC<DepartmentManagerProps> = ({
         </div>
       </div>
 
-      {/* Department list */}
-      <div style={{ marginTop: "1.5rem" }}>
-        <h3 style={{ marginBottom: "0.75rem" }}>{t("现有部门")}</h3>
+      </section>
+      <section className="department-directory">
+        <div className="department-directory-heading">
+          <h3>{t("现有部门")} <span>{departments.length}</span></h3>
+          <button type="button" className="department-collapse" onClick={() => setShowDepartmentManager(false)}>
+            <span>{t("收起部门管理")}</span>
+            <span className="department-collapse-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 15 6-6 6 6" /></svg></span>
+          </button>
+        </div>
         <div className="department-list">
           {departments.map((dept) => (
-            <div key={dept.id} className="department-item">
+            <div key={dept.id} className={`department-item${editingDepartmentId === dept.id ? " is-editing" : ""}`}>
               <div className="department-info">
-                <strong>{dept.name}</strong>
-                <span>{dept.description || "暂无描述"}</span>
-                <small>
-                  {t("创建于:")}{new Date(dept.created_at).toLocaleDateString()}
-                </small>
-              </div>
+                <div className="department-card-heading">
+                  <strong>{dept.name}</strong>
               <div className="department-actions">
                 <button
                   className="edit-btn"
@@ -105,10 +110,16 @@ const DepartmentManager: React.FC<DepartmentManagerProps> = ({
                   🗑️
                 </button>
               </div>
+                </div>
+                <span>{dept.description || "暂无描述"}</span>
+                <small>
+                  {t("创建于:")}{new Date(dept.created_at).toLocaleDateString()}
+                </small>
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
